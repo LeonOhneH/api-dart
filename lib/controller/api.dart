@@ -8,6 +8,7 @@ import 'package:api_fussball_dart/html/club.dart';
 import 'package:api_fussball_dart/html/games.dart';
 import 'package:api_fussball_dart/dto/response_dto.dart';
 import 'package:api_fussball_dart/html/player_performance.dart';
+import 'package:api_fussball_dart/html/team_matches.dart';
 import 'package:api_fussball_dart/html/squad.dart';
 import 'package:api_fussball_dart/html/table_result.dart';
 import 'package:shelf/shelf.dart';
@@ -20,6 +21,7 @@ class ApiController {
   final TableResult tableResult = TableResult();
   final Squad squad = Squad();
   final PlayerPerformance playerPerformance = PlayerPerformance();
+  final TeamMatches teamMatches = TeamMatches();
 
   Future<Response> clubAction(Request request) async {
     var id = request.params['id'];
@@ -137,6 +139,33 @@ class ApiController {
 
     ResponseSuccessDto responseSuccessDto =
         ResponseSuccessDto(teamTableTransfer);
+
+    return Response.ok(jsonEncode(responseSuccessDto));
+  }
+
+  Future<Response> teamMatchesAction(Request request) async {
+    var teamId = request.params['id'];
+    var queryParams = request.url.queryParameters;
+
+    String clubId = queryParams['club-id'] ?? '';
+    String datumVon = queryParams['datum-von'] ?? '';
+    String datumBis = queryParams['datum-bis'] ?? '';
+
+    String url = '/vereinsspielplan.druck/-/id/$clubId'
+        '/match-type/-1/max/999/mode/PRINT/show-venues/false'
+        '/team-id/$teamId';
+
+    if (datumVon.isNotEmpty) {
+      url += '/datum-von/$datumVon';
+    }
+    if (datumBis.isNotEmpty) {
+      url += '/datum-bis/$datumBis';
+    }
+
+    String html = await httpClientBridge.fetchData(url);
+    var matches = await teamMatches.parseHTML(html);
+
+    ResponseSuccessDto responseSuccessDto = ResponseSuccessDto(matches);
 
     return Response.ok(jsonEncode(responseSuccessDto));
   }
