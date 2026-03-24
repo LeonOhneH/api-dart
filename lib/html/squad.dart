@@ -56,7 +56,7 @@ class Squad {
     if (imageSpan != null) {
       var image = imageSpan.attributes['data-responsive-image'];
       if (image != null) {
-        player.image = 'https:$image';
+        player.image = image.startsWith('http') ? image : 'https:$image';
       }
     }
   }

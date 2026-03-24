@@ -53,7 +53,7 @@ void main() {
         <tr>
           <td class="column-player">
             <a href="https://www.fussball.de/spielerprofil/-/userid/ABC123" class="player-wrapper">
-              <div class="player-image table-image hidden-small"><span data-alt="player-thumbnail" data-responsive-image="//cdn.fussball.de/public/image1.jpg"></span></div>
+              <div class="player-image table-image hidden-small"><span data-alt="player-thumbnail" data-responsive-image="https://cdn.fussball.de/public/image1.jpg"></span></div>
               <div class="player-name"><span data-obfuscation="testfont1">x52;x69;x63;x68;x74;x65;x72;x2c;x4d;x61;x78;x48;x65;x6e;x72;x69;x6b;</span></div>
             </a>
           </td>
@@ -64,7 +64,7 @@ void main() {
         <tr>
           <td class="column-player">
             <a href="https://www.fussball.de/spielerprofil/-/player-id/DEF456" class="player-wrapper">
-              <div class="player-image table-image hidden-small"><span data-alt="player-thumbnail" data-responsive-image="//cdn.fussball.de/public/image2.jpg"></span></div>
+              <div class="player-image table-image hidden-small"><span data-alt="player-thumbnail" data-responsive-image="https://cdn.fussball.de/public/image2.jpg"></span></div>
               <div class="player-name"><span data-obfuscation="testfont1">x4d;x75;x6c;x6c;x65;x72;x2c;x41;x6e;x6e;x61;</span></div>
             </a>
           </td>
@@ -75,7 +75,7 @@ void main() {
         <tr>
           <td class="column-player">
             <a href="https://www.fussball.de/spielerprofil/-/userid/GHI789" class="player-wrapper">
-              <div class="player-image table-image hidden-small"><span data-alt="player-thumbnail" data-responsive-image="//cdn.fussball.de/public/image3.jpg"></span></div>
+              <div class="player-image table-image hidden-small"><span data-alt="player-thumbnail" data-responsive-image="https://cdn.fussball.de/public/image3.jpg"></span></div>
               <div class="player-name"><span data-obfuscation="testfont1">x41;x6e;x6e;x61;</span></div>
             </a>
           </td>
