@@ -73,6 +73,24 @@ class Font implements FontInterface {
     'seven': '7',
     'eight': '8',
     'nine': '9',
+    'space': ' ',
+    'period': '.',
+    'comma': ',',
+    'colon': ':',
+    'semicolon': ';',
+    'slash': '/',
+    'parenleft': '(',
+    'parenright': ')',
+    'adieresis': 'ä',
+    'odieresis': 'ö',
+    'udieresis': 'ü',
+    'Adieresis': 'Ä',
+    'Odieresis': 'Ö',
+    'Udieresis': 'Ü',
+    'germandbls': 'ß',
+    'acute': '´',
+    'eacute': 'é',
+    'egrave': 'è',
   };
 
   static const String url =
@@ -115,7 +133,7 @@ class Font implements FontInterface {
       String code = element.getAttribute('code')!.substring(1);
       String name = element.getAttribute('name')!;
 
-      info[code] = Font.map[name]!;
+      info[code] = Font.map[name] ?? (name.length == 1 ? name : '');
     }
 
     fontFile.delete();

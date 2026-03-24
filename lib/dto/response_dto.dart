@@ -55,8 +55,9 @@ class ResponseTeamInfoSuccessDto {
   final List<dynamic> table;
   final List<dynamic> prevGames;
   final List<dynamic> nextGames;
+  final List<dynamic> squad;
 
-  ResponseTeamInfoSuccessDto(this.table, this.prevGames, this.nextGames);
+  ResponseTeamInfoSuccessDto(this.table, this.prevGames, this.nextGames, this.squad);
 
   Map<String, dynamic> toJson() {
     return {
@@ -65,6 +66,7 @@ class ResponseTeamInfoSuccessDto {
         'table': table,
         'prevGames': prevGames,
         'nextGames': nextGames,
+        'squad': squad,
       },
     };
   }

@@ -7,6 +7,7 @@ import 'package:api_fussball_dart/dto/club_team_info_transfer.dart';
 import 'package:api_fussball_dart/html/club.dart';
 import 'package:api_fussball_dart/html/games.dart';
 import 'package:api_fussball_dart/dto/response_dto.dart';
+import 'package:api_fussball_dart/html/squad.dart';
 import 'package:api_fussball_dart/html/table_result.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -16,6 +17,7 @@ class ApiController {
   final GamesInterface games = Games();
   final Club club = Club();
   final TableResult tableResult = TableResult();
+  final Squad squad = Squad();
 
   Future<Response> clubAction(Request request) async {
     var id = request.params['id'];
@@ -85,13 +87,16 @@ class ApiController {
     httpClientBridge.fetchData('/ajax.team.prev.games/-/mode/PAGE/team-id/$id');
     var nextGames =
     httpClientBridge.fetchData('/ajax.team.next.games/-/mode/PAGE/team-id/$id');
+    var squadHtml =
+    httpClientBridge.fetchData('/ajax.team.squad/-/team-id/$id');
 
-    var results = await Future.wait([table, prevGames, nextGames]);
+    var results = await Future.wait([table, prevGames, nextGames, squadHtml]);
 
     ResponseTeamInfoSuccessDto responseSuccessDto = ResponseTeamInfoSuccessDto(
         tableResult.parseHTML(results[0]),
         await games.parseHTML(results[1], true),
-        await games.parseHTML(results[2], false));
+        await games.parseHTML(results[2], false),
+        await squad.parseHTML(results[3]));
 
     return Response.ok(jsonEncode(responseSuccessDto));
   }
@@ -130,6 +135,17 @@ class ApiController {
 
     ResponseSuccessDto responseSuccessDto =
         ResponseSuccessDto(teamTableTransfer);
+
+    return Response.ok(jsonEncode(responseSuccessDto));
+  }
+
+  Future<Response> squadAction(Request request) async {
+    var id = request.params['id'];
+    String html = await httpClientBridge.fetchData('/ajax.team.squad/-/team-id/$id');
+    var players = await squad.parseHTML(html);
+
+    ResponseSuccessDto responseSuccessDto =
+        ResponseSuccessDto(players);
 
     return Response.ok(jsonEncode(responseSuccessDto));
   }

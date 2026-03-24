@@ -27,6 +27,7 @@ void main() {
         ['Team1', 'Team2'],
         ['PrevGame1', 'PrevGame2'],
         ['NextGame1', 'NextGame2'],
+        ['Player1', 'Player2'],
       );
 
       var expectedJson = {
@@ -35,6 +36,7 @@ void main() {
           'table': ['Team1', 'Team2'],
           'prevGames': ['PrevGame1', 'PrevGame2'],
           'nextGames': ['NextGame1', 'NextGame2'],
+          'squad': ['Player1', 'Player2'],
         },
       };
 
