@@ -65,8 +65,23 @@ class Squad {
     Element? nameSpan = playerCell.querySelector('.player-name span[data-obfuscation]');
     if (nameSpan != null) {
       String fontName = nameSpan.attributes['data-obfuscation']!;
-      player.name = await scoreFont.getScore(fontName, nameSpan.innerHtml);
+      String fullName = await scoreFont.getScore(fontName, nameSpan.innerHtml);
+
+      List<String> parts = fullName.split(',');
+      if (parts.length >= 2) {
+        player.lastName = parts[0].trim();
+        player.firstName = _addSpacesBeforeUppercase(parts.sublist(1).join(',').trim());
+      } else {
+        player.lastName = fullName.trim();
+      }
     }
+  }
+
+  String _addSpacesBeforeUppercase(String name) {
+    return name.replaceAllMapped(
+      RegExp(r'(?<=[a-zäöü])(?=[A-ZÄÖÜ])'),
+      (match) => ' ',
+    );
   }
 
   int _parseIntOrZero(String value) {

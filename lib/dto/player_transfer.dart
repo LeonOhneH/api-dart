@@ -1,5 +1,6 @@
 class PlayerTransfer {
-  String name = '';
+  String firstName = '';
+  String lastName = '';
   String image = '';
   String profileUrl = '';
   int appearances = 0;
@@ -8,7 +9,8 @@ class PlayerTransfer {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
+      'firstName': firstName,
+      'lastName': lastName,
       'image': image,
       'profileUrl': profileUrl,
       'appearances': appearances,
