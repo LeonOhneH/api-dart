@@ -7,6 +7,7 @@ import 'package:api_fussball_dart/dto/club_team_info_transfer.dart';
 import 'package:api_fussball_dart/html/club.dart';
 import 'package:api_fussball_dart/html/games.dart';
 import 'package:api_fussball_dart/dto/response_dto.dart';
+import 'package:api_fussball_dart/html/player_performance.dart';
 import 'package:api_fussball_dart/html/squad.dart';
 import 'package:api_fussball_dart/html/table_result.dart';
 import 'package:shelf/shelf.dart';
@@ -18,6 +19,7 @@ class ApiController {
   final Club club = Club();
   final TableResult tableResult = TableResult();
   final Squad squad = Squad();
+  final PlayerPerformance playerPerformance = PlayerPerformance();
 
   Future<Response> clubAction(Request request) async {
     var id = request.params['id'];
@@ -137,6 +139,35 @@ class ApiController {
         ResponseSuccessDto(teamTableTransfer);
 
     return Response.ok(jsonEncode(responseSuccessDto));
+  }
+
+  Future<Response> playerPerformanceAction(Request request) async {
+    var id = request.params['id'];
+    var queryParams = request.url.queryParameters;
+
+    String url = '/ajax.profile.performance/-/userid/$id';
+    String html;
+
+    Map<String, String> body = {};
+    if (queryParams.containsKey('saison')) {
+      body['saison'] = queryParams['saison']!;
+    }
+    if (queryParams.containsKey('team-id')) {
+      body['team-id'] = queryParams['team-id']!;
+    }
+    if (queryParams.containsKey('staffel')) {
+      body['staffel'] = queryParams['staffel']!;
+    }
+
+    if (body.isNotEmpty) {
+      html = await httpClientBridge.postData(url, body);
+    } else {
+      html = await httpClientBridge.fetchData(url);
+    }
+
+    var result = await playerPerformance.parseHTML(html);
+
+    return Response.ok(jsonEncode(result));
   }
 
   Future<Response> squadAction(Request request) async {

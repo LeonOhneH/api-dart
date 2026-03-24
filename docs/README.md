@@ -149,12 +149,29 @@ dart run bin/server.dart
 
 | Methode | Endpunkt | Beschreibung |
 |---------|----------|--------------|
-| GET | `/api/team/{id}` | Team-Übersicht (Tabelle + Spiele) |
+| GET | `/api/team/{id}` | Team-Übersicht (Tabelle + Spiele + Kader) |
 | GET | `/api/team/next_games/{id}` | Kommende Team-Spiele |
 | GET | `/api/team/prev_games/{id}` | Vergangene Team-Spiele mit Scores |
 | GET | `/api/team/table/{id}` | Tabellenstand der Liga |
+| GET | `/api/team/squad/{id}` | Kader des Teams |
 
-**Hinweis**: Alle Scores werden automatisch durch Font-Dekodierung entschlüsselt!
+#### Spieler-Endpunkte
+
+| Methode | Endpunkt | Beschreibung |
+|---------|----------|--------------|
+| GET | `/api/player/performance/{userid}` | Spielerstatistiken & Einsätze |
+
+**Optionale Query-Parameter** für `/api/player/performance/{userid}`:
+
+| Parameter | Beschreibung | Beispiel |
+|-----------|--------------|---------|
+| `saison` | Saison filtern | `2526` |
+| `team-id` | Team filtern | `02TA2PD9C8000000VS5489BTVVQ0O654` |
+| `staffel` | Meisterschaft/Liga filtern | `02TJCHUURS000008VS5489BUVVSMDEIN-G` |
+
+Ohne Parameter werden die Standard-Werte von fussball.de verwendet (aktuelle Saison, erstes Team).
+
+**Hinweis**: Alle Scores werden automatisch durch Font-Dekodierung entschlüsselt! Die `userid` findet man im `profileUrl`-Feld der Squad-Response (nur für Spieler mit fussball.de-Konto).
 
 ---
 

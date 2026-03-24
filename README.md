@@ -44,7 +44,8 @@ curl -G https://www.api-fussball.de/api/team/table/{team_id} \
 ### 3. Verfügbare Endpoints
 
 - **Club (Verein):** `/api/club/{id}`, `/api/club/info/{id}`, `/api/club/next_games/{id}`, `/api/club/prev_games/{id}`
-- **Team (Mannschaft):** `/api/team/{id}`, `/api/team/table/{id}`, `/api/team/next_games/{id}`, `/api/team/prev_games/{id}`
+- **Team (Mannschaft):** `/api/team/{id}`, `/api/team/table/{id}`, `/api/team/next_games/{id}`, `/api/team/prev_games/{id}`, `/api/team/squad/{id}`
+- **Spieler:** `/api/player/performance/{userid}`
 
 📖 **Vollständige Endpoint-Dokumentation:** [https://www.api-fussball.de/api-uebersicht](https://www.api-fussball.de/api-uebersicht)
 
