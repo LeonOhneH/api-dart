@@ -106,7 +106,7 @@ class PlayerPerformance {
     Element? clubName = cell.querySelector('.club-name');
     Element? clubLogo = cell.querySelector('.club-logo img');
 
-    String name = clubName?.text.trim() ?? '';
+    String name = (clubName?.text.trim() ?? '').replaceAll(RegExp(r'\d{4,};'), '');
     String logo = '';
     if (clubLogo != null) {
       logo = clubLogo.attributes['src'] ?? '';
