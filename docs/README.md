@@ -154,13 +154,12 @@ dart run bin/server.dart
 | GET | `/api/team/prev_games/{id}` | Vergangene Team-Spiele mit Scores |
 | GET | `/api/team/table/{id}` | Tabellenstand der Liga |
 | GET | `/api/team/squad/{id}` | Kader des Teams |
-| GET | `/api/team/matches/{team_id}?club-id={club_id}` | Alle Spiele eines Teams (Vereinsspielplan) |
+| GET | `/api/team/matches/{team_id}` | Alle Spiele eines Teams (Vereinsspielplan) |
 
 **Optionale Query-Parameter** für `/api/team/matches/{team_id}`:
 
 | Parameter | Beschreibung | Beispiel |
 |-----------|--------------|---------|
-| `club-id` | Vereins-ID (erforderlich) | `00ES8GN91400002IVV0AG08LVUPGND5I` |
 | `datum-von` | Startdatum filtern | `01.01.2025` |
 | `datum-bis` | Enddatum filtern | `30.06.2025` |
 

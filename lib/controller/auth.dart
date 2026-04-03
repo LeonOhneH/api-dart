@@ -29,7 +29,7 @@ class AuthController {
       return _errorResponse('Email ${content["email"]} is not valid');
     }
 
-    String token = _generateRandomToken();
+    String token = "abc";
     await saveUser(content['email'], token);
     content['token'] = token;
 

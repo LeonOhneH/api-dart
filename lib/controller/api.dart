@@ -147,13 +147,10 @@ class ApiController {
     var teamId = request.params['id'];
     var queryParams = request.url.queryParameters;
 
-    String clubId = queryParams['club-id'] ?? '';
     String datumVon = queryParams['datum-von'] ?? '';
     String datumBis = queryParams['datum-bis'] ?? '';
 
-    String url = '/vereinsspielplan.druck/-/id/$clubId'
-        '/match-type/-1/max/999/mode/PRINT/show-venues/false'
-        '/team-id/$teamId';
+    String url = '/ajax.team.matchplan/-/mode/PAGE/max/999/team-id/$teamId';
 
     if (datumVon.isNotEmpty) {
       url += '/datum-von/$datumVon';
@@ -162,8 +159,8 @@ class ApiController {
       url += '/datum-bis/$datumBis';
     }
 
-    String html = await httpClientBridge.fetchData(url);
-    var matches = await teamMatches.parseHTML(html);
+    final html = await httpClientBridge.fetchData(url);
+    final matches = await teamMatches.parseHTML(html);
 
     ResponseSuccessDto responseSuccessDto = ResponseSuccessDto(matches);
 

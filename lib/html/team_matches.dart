@@ -72,24 +72,24 @@ class TeamMatches {
       competition = parts.sublist(1).join(' | ').trim();
     }
 
+    RegExp dateRegex = RegExp(r'(\d{2}\.\d{2}\.\d{4})');
+    RegExp timeRegex = RegExp(r'(\d{2}:\d{2})');
+
     if (span != null) {
       String? fontName = span.attributes['data-obfuscation'];
       if (fontName != null) {
-        String decoded =
-            await scoreFont.getScore(fontName, span.innerHtml);
-
-        RegExp dateRegex = RegExp(r'(\d{2}\.\d{2}\.\d{4})');
+        String decoded = await scoreFont.getScore(fontName, span.innerHtml);
         var dateMatch = dateRegex.firstMatch(decoded);
-        if (dateMatch != null) {
-          date = dateMatch.group(1)!;
-        }
-
-        RegExp timeRegex = RegExp(r'(\d{2}:\d{2})');
+        if (dateMatch != null) date = dateMatch.group(1)!;
         var timeMatch = timeRegex.firstMatch(decoded);
-        if (timeMatch != null) {
-          time = timeMatch.group(1)!;
-        }
+        if (timeMatch != null) time = timeMatch.group(1)!;
       }
+    } else {
+      // Plaintext headline: "Sonntag, 29.03.2026 - 13:00 Uhr | Kreisliga C"
+      var dateMatch = dateRegex.firstMatch(text);
+      if (dateMatch != null) date = dateMatch.group(1)!;
+      var timeMatch = timeRegex.firstMatch(text);
+      if (timeMatch != null) time = timeMatch.group(1)!;
     }
 
     return (competition, date, time);
