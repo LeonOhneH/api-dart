@@ -163,6 +163,19 @@ dart run bin/server.dart
 | `datum-von` | Startdatum filtern | `01.01.2025` |
 | `datum-bis` | Enddatum filtern | `30.06.2025` |
 
+#### Spiel-Endpunkte
+
+| Methode | Endpunkt | Beschreibung |
+|---------|----------|--------------|
+| GET | `/api/match/{spiel_id}` | Spieldetails (Aufstellung, Ereignisse, Spielminuten) |
+
+Die `spiel_id` findet man im `matchUrl`-Feld der Team-Matches- oder Games-Response.
+
+Die Response enthält:
+- Aufstellung beider Teams (Startelf + Ersatzbank) mit Trikotnummern, Kapitän/Torwart-Markierung
+- Spielereignisse (Tore mit Zwischenstand, Auswechslungen, Karten) mit Minutenangabe
+- Berechnete Spielminuten pro Spieler (nach fussball.de-Logik: Starter = 90 Min, Einwechslung in Minute X = 91 - X)
+
 #### Spieler-Endpunkte
 
 | Methode | Endpunkt | Beschreibung |

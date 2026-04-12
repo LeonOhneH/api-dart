@@ -7,6 +7,7 @@ import 'package:api_fussball_dart/dto/club_team_info_transfer.dart';
 import 'package:api_fussball_dart/html/club.dart';
 import 'package:api_fussball_dart/html/games.dart';
 import 'package:api_fussball_dart/dto/response_dto.dart';
+import 'package:api_fussball_dart/html/match_detail.dart';
 import 'package:api_fussball_dart/html/player_performance.dart';
 import 'package:api_fussball_dart/html/team_matches.dart';
 import 'package:api_fussball_dart/html/squad.dart';
@@ -22,6 +23,7 @@ class ApiController {
   final Squad squad = Squad();
   final PlayerPerformance playerPerformance = PlayerPerformance();
   final TeamMatches teamMatches = TeamMatches();
+  final MatchDetail matchDetail = MatchDetail();
 
   Future<Response> clubAction(Request request) async {
     var id = request.params['id'];
@@ -192,6 +194,21 @@ class ApiController {
     }
 
     var result = await playerPerformance.parseHTML(html);
+
+    return Response.ok(jsonEncode(result));
+  }
+
+  Future<Response> matchDetailAction(Request request) async {
+    var id = request.params['id'];
+
+    var lineupHtml = httpClientBridge
+        .fetchData('/ajax.match.lineup/-/mode/PAGE/spiel/$id');
+    var courseHtml = httpClientBridge
+        .fetchData('/ajax.match.course/-/mode/PAGE/spiel/$id');
+
+    var results = await Future.wait([lineupHtml, courseHtml]);
+
+    var result = await matchDetail.parseHTML(results[0], results[1]);
 
     return Response.ok(jsonEncode(result));
   }

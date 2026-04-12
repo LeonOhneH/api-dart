@@ -28,6 +28,7 @@ final _router = Router()
   ..get('/api/team/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.teamAction)(request))
   ..get('/api/team/matches/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.teamMatchesAction)(request))
   ..get('/api/player/performance/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.playerPerformanceAction)(request))
+  ..get('/api/match/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.matchDetailAction)(request))
 
   ..all('/api/<anything|.*>', (Request request) {
     ResponseErrorDto responseErrorDto = ResponseErrorDto('Route not found');
