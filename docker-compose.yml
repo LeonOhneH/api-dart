@@ -8,6 +8,8 @@ services:
       - api_data:/data
     environment:
       PORT: "8081"
+      API_KEY: ""
+      RATE_LIMIT: "30"
     restart: unless-stopped
 
 volumes:

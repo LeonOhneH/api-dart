@@ -1,32 +1,28 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:api_fussball_dart/database.dart';
-import 'package:api_fussball_dart/entities/user.dart';
 import 'package:api_fussball_dart/dto/response_dto.dart';
 import 'package:shelf/shelf.dart';
 
 Middleware headerTokenCheckMiddleware() {
+  final apiKey = Platform.environment['API_KEY'] ?? '';
+  final rateLimit = int.tryParse(Platform.environment['RATE_LIMIT'] ?? '') ?? 30;
+
   return (Handler innerHandler) {
     return (Request request) async {
-
       String? token = request.headers['x-auth-token'];
-      if(token == null) {
-        ResponseErrorDto responseErrorDto = ResponseErrorDto('Token in header: "x-auth-token" not found');
+      if (token == null || token != apiKey) {
+        ResponseErrorDto responseErrorDto = ResponseErrorDto('Unauthorized');
         return Response.unauthorized(jsonEncode(responseErrorDto), headers: {'Content-Type': 'application/json'});
       }
 
-      User? user = await findUserByToken(token);
-      if (user == null) {
-        ResponseErrorDto responseErrorDto = ResponseErrorDto('Token $token not found');
-        return Response.unauthorized(jsonEncode(responseErrorDto), headers: {'Content-Type': 'application/json'});
-      }
-
-      int rateLimit = await RateLimitManager().get(user.id);
-      if(rateLimit > 30) {
-        ResponseErrorDto responseErrorDto = ResponseErrorDto('You are allowed a maximum of 30 queries per minute. Please try again later.');
+      int current = await RateLimitManager().get(0);
+      if (current > rateLimit) {
+        ResponseErrorDto responseErrorDto = ResponseErrorDto('You are allowed a maximum of $rateLimit queries per minute. Please try again later.');
         return Response(429, body: jsonEncode(responseErrorDto), headers: {'Content-Type': 'application/json'});
       }
-      await RateLimitManager().add(user.id);
+      await RateLimitManager().add(0);
 
       return innerHandler(request);
     };

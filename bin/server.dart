@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:api_fussball_dart/controller/api.dart';
-import 'package:api_fussball_dart/controller/auth.dart';
 import 'package:api_fussball_dart/dto/response_dto.dart';
 import 'package:api_fussball_dart/middleware.dart';
 
@@ -11,12 +10,9 @@ import 'package:shelf/shelf_io.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 ApiController gamesController = ApiController();
-AuthController authController = AuthController();
 
 // Configure routes.
 final _router = Router()
-  ..post('/auth/register', authController.register)
-  ..post('/api/auth/register', authController.register)
   ..get('/api/club/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.clubAction)(request))
   ..get('/api/club/info/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.clubInfoAction)(request))
   ..get('/api/club/next_games/<id>',  (Request request) => headerTokenCheckMiddleware()(gamesController.nextGameAction)(request))
