@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to registry
+        run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login -u "${{ secrets.REGISTRY_USER }}" --password-stdin "${{ secrets.REGISTRY }}"
+
+      - name: Pull cache image
+        run: docker pull "${{ secrets.REGISTRY }}/api-dart:latest" || true
+
+      - name: Build image
+        run: |
+          docker build \
+            --cache-from "${{ secrets.REGISTRY }}/api-dart:latest" \
+            -t "${{ secrets.REGISTRY }}/api-dart:${{ github.ref_name }}" \
+            -t "${{ secrets.REGISTRY }}/api-dart:latest" \
+            -t "${{ secrets.REGISTRY }}/api-dart:${{ github.sha }}" \
+            .
+
+      - name: Push image
+        run: docker push "${{ secrets.REGISTRY }}/api-dart" --all-tags
