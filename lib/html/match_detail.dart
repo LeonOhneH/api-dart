@@ -17,6 +17,7 @@ class MatchDetail {
     await _parseLineup(lineupDoc, result);
     await _parseCourse(courseDoc, result);
     _calculateMinutes(result);
+    _deriveFinalScore(result);
 
     _clearFontCache(lineupDoc);
     _clearFontCache(courseDoc);
@@ -47,6 +48,19 @@ class MatchDetail {
         result.awayLogo = src.startsWith('http') ? src : 'https:$src';
       }
     }
+  }
+
+  // Derive the final score from the last goal event, which carries the
+  // running score as calculated by fussball.de (handles own goals correctly).
+  void _deriveFinalScore(MatchDetailTransfer result) {
+    var goalEvents = result.events
+        .where((e) => e.type == 'goal' && e.scoreLeft.isNotEmpty)
+        .toList();
+    if (goalEvents.isEmpty) return;
+
+    var last = goalEvents.last;
+    result.homeScore = last.scoreLeft;
+    result.awayScore = last.scoreRight;
   }
 
   Future<void> _parseLineup(

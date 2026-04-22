@@ -439,6 +439,12 @@ void main() {
     expect(result.endTime, equals('16:45Uhr'));
   });
 
+  test('derives final score from last goal event', () async {
+    var result = await matchDetail.parseHTML(lineupHtml, courseHtml);
+    expect(result.homeScore, equals('1'));
+    expect(result.awayScore, equals('0'));
+  });
+
   group('MatchDetailTransfer', () {
     test('toJson', () {
       var result = MatchDetailTransfer();

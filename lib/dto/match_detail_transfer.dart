@@ -65,6 +65,8 @@ class MatchDetailTransfer {
   String awayTeam = '';
   String homeLogo = '';
   String awayLogo = '';
+  String homeScore = '';
+  String awayScore = '';
   String endTime = '';
   List<MatchPlayerTransfer> players = [];
   List<MatchEventTransfer> events = [];
@@ -75,6 +77,8 @@ class MatchDetailTransfer {
       'awayTeam': awayTeam,
       'homeLogo': homeLogo,
       'awayLogo': awayLogo,
+      'homeScore': homeScore,
+      'awayScore': awayScore,
       'endTime': endTime,
       'players': players.map((p) => p.toJson()).toList(),
       'events': events.map((e) => e.toJson()).toList(),
