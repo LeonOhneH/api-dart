@@ -5,7 +5,8 @@ WORKDIR /app
 
 # Copy manifest files first for layer caching
 COPY pubspec.yaml pubspec.lock ./
-RUN dart pub get
+RUN dart pub get && \
+    find /root/.pub-cache -name "libisar*.so" | head -1 | xargs -I{} cp {} /app/bin/libisar.so
 
 # Copy source code
 COPY bin/ bin/

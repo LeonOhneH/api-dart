@@ -1,6 +1,6 @@
 name: api_fussball_dart
 description: A server app using the shelf package and Docker.
-version: 1.0.3
+version: 1.0.4
 repository: https://github.com/api-fussball/api-dart
 
 environment:
