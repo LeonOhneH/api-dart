@@ -114,13 +114,22 @@ class Font implements FontInterface {
     final fontFile = File(fontWoff);
     await fontFile.writeAsBytes(response.bodyBytes);
 
-    await Process.run('bash', [
+    final result = await Process.run('bash', [
       '-c',
       sprintf(Font.shellCommand, [fontDir, fontWoff])
     ]);
 
     String convertFilePath = sprintf(Font.convertFile, [fontDir, fontName]);
     final convertFile = File(convertFilePath);
+
+    if (result.exitCode != 0 || !convertFile.existsSync()) {
+      throw ProcessException(
+        'ttx',
+        [fontWoff],
+        'ttx failed (exit ${result.exitCode})\nstdout: ${result.stdout}\nstderr: ${result.stderr}\nexpected output: $convertFilePath\nfiles in fontDir: ${Directory(fontDir).listSync().map((e) => e.path).toList()}',
+        result.exitCode,
+      );
+    }
 
     XmlDocument domDocument =
         XmlDocument.parse(await convertFile.readAsString());

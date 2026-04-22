@@ -19,7 +19,8 @@ FROM debian:bookworm-slim
 
 # fonttools provides the `ttx` command used for font score decoding
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends python3-fonttools && \
+    apt-get install -y --no-install-recommends python3-pip && \
+    pip install --break-system-packages fonttools && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Isar native library system-wide
