@@ -1,5 +1,6 @@
 .dockerignore
 Dockerfile
+docker-compose.yml
 build/
 .dart_tool/
 .git/
@@ -7,3 +8,14 @@ build/
 .gitignore
 .idea/
 .packages
+test/
+docs/
+*.isar
+*.isar.lock
+fonts/
+*.json
+CLAUDE.md
+CHANGELOG.md
+README.md
+TECHNICAL_DOCUMENTATION.md
+ecosystem.config.json
